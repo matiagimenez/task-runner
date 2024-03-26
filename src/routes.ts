@@ -12,7 +12,7 @@ export class TaskRoutes {
 	}
 
 	public routes(): void {
-		this.router.get('/', this.taskController.executeTask);
+		this.router.post('/api/task', this.taskController.executeTask);
 	}
 
 	public get getRouter(): Router {
