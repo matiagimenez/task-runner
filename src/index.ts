@@ -1,14 +1,14 @@
-import express from 'express';
 import 'dotenv/config';
+import { TaskRoutes } from './routes';
+import { TaskController } from './controllers/task.controller';
+import { TaskService } from './services/task.service';
+import { Server } from './server';
 
-const app = express();
-const port = process.env.PORT || 3000;
-const host = process.env.HOST || 'localhost';
+const taskService = new TaskService();
+const taskController = new TaskController(taskService);
+const taskRoutes = new TaskRoutes(taskController);
 
-app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
+const server = new Server();
 
-app.listen({ port, host }, () => {
-	console.log(`Example app listening on ${host}:${port}`);
-});
+server.router(taskRoutes.getRouter);
+server.start();
