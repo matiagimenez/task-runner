@@ -9,6 +9,8 @@ export class Server {
 		this.server = express();
 		this.port = process.env.PORT || 3000;
 		this.host = process.env.HOST || 'localhost';
+
+		this.middlewares();
 	}
 
 	public start(): void {
@@ -22,5 +24,9 @@ export class Server {
 
 	public router(Router: express.Router): void {
 		this.server.use('/', Router);
+	}
+
+	private middlewares() {
+		this.server.use(express.json());
 	}
 }
