@@ -23,6 +23,7 @@ export class TaskService {
 		parameters,
 	}: Task): Promise<string> {
 		try {
+			// Pull docker image
 			const pulled = await this.dockerClient.pull(`${image}:${tag}`);
 
 			if (!pulled) {
@@ -31,14 +32,14 @@ export class TaskService {
 				});
 			}
 
-			// TODO: "Run the container with the image"
-			// const running = await this.dockerClient.run(image, tag, port);
+			// Run the container
+			const running = await this.dockerClient.run(image, tag, port);
 
-			// if (!running) {
-			// 	return JSON.stringify({
-			// 		message: 'Error running the container',
-			// 	});
-			// }
+			if (!running) {
+				return JSON.stringify({
+					message: 'Error running the container',
+				});
+			}
 
 			// TODO: "HTTP Request to the container to get the result of the task"
 			//? name is the name of the task we have to execute & parameters will be the parameters to pass on the http body
