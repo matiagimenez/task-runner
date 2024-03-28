@@ -8,6 +8,8 @@ interface Task {
 	parameters?: any[];
 }
 
+const host = process.env.HOST || 'localhost';
+
 export class TaskService {
 	private dockerClient: DockerClient;
 
@@ -21,7 +23,7 @@ export class TaskService {
 		tag,
 		port,
 		parameters,
-	}: Task): Promise<string> {
+	}: Task): Promise<any> {
 		try {
 			// Pull docker image
 			const pulled = await this.dockerClient.pull(`${image}:${tag}`);
@@ -43,11 +45,20 @@ export class TaskService {
 
 			// TODO: "HTTP Request to the container to get the result of the task"
 			//? name is the name of the task we have to execute & parameters will be the parameters to pass on the http body
+			const response = await fetch(
+				`http://${host}:${port}/task/${name}`,
+				{
+					method: 'POST',
+					body: JSON.stringify({ params: parameters }),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}
+			);
 
-			return JSON.stringify({
-				message: `${name} executed successfully`,
-				result: 'result',
-			});
+			const result = await response.json();
+
+			return result;
 		} catch (error) {
 			console.error('Error executing task:', error);
 			return `Error executing task: ${error}`; // Rechazar la promesa con el error para que sea manejado por el código que llamó a executeTask()

@@ -44,6 +44,13 @@ export class TaskController {
 			name,
 			parameters,
 		});
-		response.end(JSON.stringify({ result }));
+
+		response.status(200);
+		response.end(
+			JSON.stringify({
+				message: `${name} executed successfully`,
+				result,
+			})
+		);
 	};
 }
