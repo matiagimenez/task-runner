@@ -43,17 +43,18 @@ export class DockerClient {
 				{
 					Image: `${image}:${tag}`,
 					ExposedPorts: {
-						'80/tcp': {},
+						[`${port}/tcp`]: {},
 					},
 					HostConfig: {
 						PortBindings: {
-							'80/tcp': [
+							[`${port}/tcp`]: [
 								{
 									HostPort: `${port}`,
 								},
 							],
 						},
 					},
+					name: `c-${Math.floor(Math.random() * 10000).toString()}`,
 				},
 				(err, container) => {
 					if (err) {
