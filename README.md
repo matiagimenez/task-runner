@@ -31,13 +31,7 @@ HOST = localhost
 PORT = 3000
 ```
 
-4. Start the database containers
-
-```
-docker compose up -d
-```
-
-5.  Run the application
+4.  Run the application
 
 ```bash
 npm run dev
