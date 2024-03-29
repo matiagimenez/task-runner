@@ -69,8 +69,40 @@ export class DockerClient {
 							return;
 						}
 
-						console.log('Container started successfully');
-						resolve(true);
+						// Resolves after 10 seconds assuming the container is running.
+						setTimeout(() => {
+							console.log('Container started successfully');
+							resolve(true);
+						}, 10000);
+
+						// After 90 seconds, stop and remove the container.
+						setTimeout(() => {
+							console.log('Stopping container ...');
+							container.stop((err) => {
+								if (err) {
+									console.error(
+										'Error stopping container:',
+										err
+									);
+									reject(false);
+									return;
+								}
+
+								container.remove((err) => {
+									if (err) {
+										console.error(
+											'Error removing container:',
+											err
+										);
+										reject(false);
+										return;
+									}
+									console.log(
+										'Container stopped successfully'
+									);
+								});
+							});
+						}, 90000);
 					});
 				}
 			);
