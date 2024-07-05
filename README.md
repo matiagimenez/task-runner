@@ -2,8 +2,6 @@
 
 This service runs a docker container and executes a task specified by the parameters on the request to the server.
 
-![Arquitectura](https://github.com/matiasgimenezdev/generic-task-service/assets/117539520/fddcdd47-a28e-4077-b282-6f134ce04cc4)
-
 ## Requirements
 
 -   Node.js (v18.17.1 or higher)
